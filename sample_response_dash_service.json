@@ -1,0 +1,1494 @@
+{
+  "page": 2,
+  "page_size": 10,
+  "total_records": 66,
+  "total_pages": 7,
+  "has_next_page": true,
+  "has_previous_page": true,
+  "search": "FreshMart",
+  "products": [
+    {
+      "product_id": "PROD-00404",
+      "analyzed_at": "2026-11-06T13:45:04.856Z",
+      "risk_analysis": {
+        "product_id": "PROD-00404",
+        "days_left_risk": "medium",
+        "replenishment_risk": "medium",
+        "sales_trend_risk": "medium",
+        "promotion_risk": "high",
+        "promotion_calendar_risk": "medium",
+        "historical_sales_risk": "low",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Regular Chips 100g",
+      "pricing": {
+        "mrp": 48.72,
+        "cp": 33.6,
+        "sp": 42
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 0
+      },
+      "sales_velocity": 10.23,
+      "upcoming_replenishments": [
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-12",
+          "days_until_arrival": 7
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        }
+      ],
+      "current_promotions": []
+    },
+    {
+      "product_id": "PROD-00386",
+      "analyzed_at": "2026-11-06T13:45:03.429Z",
+      "risk_analysis": {
+        "product_id": "PROD-00386",
+        "days_left_risk": "high",
+        "replenishment_risk": "medium",
+        "sales_trend_risk": "high",
+        "promotion_risk": "high",
+        "promotion_calendar_risk": "low",
+        "historical_sales_risk": "low",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Original Butter 100g",
+      "pricing": {
+        "mrp": 213.15,
+        "cp": 166.39,
+        "sp": 203
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 60
+      },
+      "sales_velocity": 6.43,
+      "upcoming_replenishments": [
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-10",
+          "days_until_arrival": 5
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-22",
+          "days_until_arrival": 17
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-22",
+          "days_until_arrival": 17
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-22",
+          "days_until_arrival": 17
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F10B-FOPT3R",
+          "start_date": "2026-10-13",
+          "end_date": "2026-11-12"
+        },
+        {
+          "active": true,
+          "promotion_id": "PROMO-202611-34F10B-8RK0B7",
+          "start_date": "2026-11-06",
+          "end_date": "2026-12-06"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00369",
+      "analyzed_at": "2026-11-06T13:45:02.145Z",
+      "risk_analysis": {
+        "product_id": "PROD-00369",
+        "days_left_risk": "high",
+        "replenishment_risk": "medium",
+        "sales_trend_risk": "medium",
+        "promotion_risk": "low",
+        "promotion_calendar_risk": "low",
+        "historical_sales_risk": "low",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Gold Juice 200ml",
+      "pricing": {
+        "mrp": 67.71,
+        "cp": 48.8,
+        "sp": 61
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 0
+      },
+      "sales_velocity": 30.33,
+      "upcoming_replenishments": [
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-11",
+          "days_until_arrival": 6
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-11",
+          "days_until_arrival": 6
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-11",
+          "days_until_arrival": 6
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-11",
+          "days_until_arrival": 6
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-11",
+          "days_until_arrival": 6
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-18",
+          "days_until_arrival": 13
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-18",
+          "days_until_arrival": 13
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-18",
+          "days_until_arrival": 13
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-18",
+          "days_until_arrival": 13
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-18",
+          "days_until_arrival": 13
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-23",
+          "days_until_arrival": 18
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0FA-5YEBEN",
+          "start_date": "2026-10-29",
+          "end_date": "2026-11-28"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00366",
+      "analyzed_at": "2026-11-06T13:45:01.919Z",
+      "risk_analysis": {
+        "product_id": "PROD-00366",
+        "days_left_risk": "medium",
+        "replenishment_risk": "high",
+        "sales_trend_risk": "medium",
+        "promotion_risk": "low",
+        "promotion_calendar_risk": "high",
+        "historical_sales_risk": "high",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Everyday Water 2L",
+      "pricing": {
+        "mrp": 31.64,
+        "cp": 22.05,
+        "sp": 28
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 875
+      },
+      "sales_velocity": 25.13,
+      "upcoming_replenishments": [
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-16",
+          "days_until_arrival": 11
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-16",
+          "days_until_arrival": 11
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-16",
+          "days_until_arrival": 11
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-16",
+          "days_until_arrival": 11
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-16",
+          "days_until_arrival": 11
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-21",
+          "days_until_arrival": 16
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-24",
+          "days_until_arrival": 19
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-24",
+          "days_until_arrival": 19
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-12-01",
+          "days_until_arrival": 26
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0F7-00RWCN",
+          "start_date": "2026-10-21",
+          "end_date": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00360",
+      "analyzed_at": "2026-11-06T13:45:01.480Z",
+      "risk_analysis": {
+        "product_id": "PROD-00360",
+        "days_left_risk": "medium",
+        "replenishment_risk": "medium",
+        "sales_trend_risk": "low",
+        "promotion_risk": "high",
+        "promotion_calendar_risk": "high",
+        "historical_sales_risk": "low",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Original Cake 1kg",
+      "pricing": {
+        "mrp": 1035.5,
+        "cp": 748.03,
+        "sp": 950
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 296
+      },
+      "sales_velocity": 7.07,
+      "upcoming_replenishments": [
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-13",
+          "days_until_arrival": 8
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-13",
+          "days_until_arrival": 8
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-13",
+          "days_until_arrival": 8
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-13",
+          "days_until_arrival": 8
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-13",
+          "days_until_arrival": 8
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-13",
+          "days_until_arrival": 8
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0F1-0IFAW1",
+          "start_date": "2026-10-16",
+          "end_date": "2026-11-11"
+        },
+        {
+          "active": true,
+          "promotion_id": "PROMO-202611-34F0F1-STB0BR",
+          "start_date": "2026-11-04",
+          "end_date": "2026-11-16"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00350",
+      "analyzed_at": "2026-11-06T13:45:00.716Z",
+      "risk_analysis": {
+        "product_id": "PROD-00350",
+        "days_left_risk": "low",
+        "replenishment_risk": "high",
+        "sales_trend_risk": "high",
+        "promotion_risk": "high",
+        "promotion_calendar_risk": "medium",
+        "historical_sales_risk": "low",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Everyday Crackers 100g",
+      "pricing": {
+        "mrp": 155.04,
+        "cp": 107.09,
+        "sp": 136
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 0
+      },
+      "sales_velocity": 8.53,
+      "upcoming_replenishments": [
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-27",
+          "days_until_arrival": 22
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-12-04",
+          "days_until_arrival": 29
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-12-04",
+          "days_until_arrival": 29
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-12-04",
+          "days_until_arrival": 29
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-12-04",
+          "days_until_arrival": 29
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-12-04",
+          "days_until_arrival": 29
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0E7-HXOGW0",
+          "start_date": "2026-10-25",
+          "end_date": "2026-11-16"
+        },
+        {
+          "active": true,
+          "promotion_id": "PROMO-202611-34F0E7-SNOLZ0",
+          "start_date": "2026-11-04",
+          "end_date": "2026-11-20"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00342",
+      "analyzed_at": "2026-11-06T13:44:59.992Z",
+      "risk_analysis": {
+        "product_id": "PROD-00342",
+        "days_left_risk": "low",
+        "replenishment_risk": "high",
+        "sales_trend_risk": "low",
+        "promotion_risk": "low",
+        "promotion_calendar_risk": "low",
+        "historical_sales_risk": "medium",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Original Croissant 250g",
+      "pricing": {
+        "mrp": 248.64,
+        "cp": 181.97,
+        "sp": 222
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 1022
+      },
+      "sales_velocity": 11.33,
+      "upcoming_replenishments": [
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-08",
+          "days_until_arrival": 3
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0DF-PCPY8K",
+          "start_date": "2026-10-28",
+          "end_date": "2026-11-20"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00340",
+      "analyzed_at": "2026-11-06T13:44:59.785Z",
+      "risk_analysis": {
+        "product_id": "PROD-00340",
+        "days_left_risk": "medium",
+        "replenishment_risk": "low",
+        "sales_trend_risk": "medium",
+        "promotion_risk": "low",
+        "promotion_calendar_risk": "medium",
+        "historical_sales_risk": "high",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Gold Water 2L",
+      "pricing": {
+        "mrp": 54.72,
+        "cp": 40,
+        "sp": 48
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 341
+      },
+      "sales_velocity": 22,
+      "upcoming_replenishments": [
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-06",
+          "days_until_arrival": 1
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-09",
+          "days_until_arrival": 4
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0DD-HP3PMX",
+          "start_date": "2026-10-29",
+          "end_date": "2026-11-12"
+        },
+        {
+          "active": true,
+          "promotion_id": "PROMO-202611-34F0DD-21ERGI",
+          "start_date": "2026-11-04",
+          "end_date": "2026-11-27"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00337",
+      "analyzed_at": "2026-11-06T13:44:59.514Z",
+      "risk_analysis": {
+        "product_id": "PROD-00337",
+        "days_left_risk": "medium",
+        "replenishment_risk": "medium",
+        "sales_trend_risk": "medium",
+        "promotion_risk": "medium",
+        "promotion_calendar_risk": "high",
+        "historical_sales_risk": "high",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Select Sugar 500g",
+      "pricing": {
+        "mrp": 214.2,
+        "cp": 155.17,
+        "sp": 180
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 0
+      },
+      "sales_velocity": 26.7,
+      "upcoming_replenishments": [
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-15",
+          "days_until_arrival": 10
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-11-20",
+          "days_until_arrival": 15
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-25",
+          "days_until_arrival": 20
+        },
+        {
+          "quantity": 17,
+          "expected_date": "2026-11-25",
+          "days_until_arrival": 20
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-25",
+          "days_until_arrival": 20
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-25",
+          "days_until_arrival": 20
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-25",
+          "days_until_arrival": 20
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 16,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-12-03",
+          "days_until_arrival": 28
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0DA-UYCZR4",
+          "start_date": "2026-10-14",
+          "end_date": "2026-11-09"
+        },
+        {
+          "active": true,
+          "promotion_id": "PROMO-202610-34F0DA-KKHOCF",
+          "start_date": "2026-10-29",
+          "end_date": "2026-11-06"
+        }
+      ]
+    },
+    {
+      "product_id": "PROD-00327",
+      "analyzed_at": "2026-11-06T13:44:58.660Z",
+      "risk_analysis": {
+        "product_id": "PROD-00327",
+        "days_left_risk": "low",
+        "replenishment_risk": "medium",
+        "sales_trend_risk": "low",
+        "promotion_risk": "medium",
+        "promotion_calendar_risk": "medium",
+        "historical_sales_risk": "high",
+        "overall_risk": "high",
+        "reason": "Mock risk analysis generated without LLM"
+      },
+      "name": "FreshMart Regular Butter 250g",
+      "pricing": {
+        "mrp": 262.08,
+        "cp": 205.26,
+        "sp": 234
+      },
+      "inventory": {
+        "min_stock": 0,
+        "max_stock": 0,
+        "current_stock": 649
+      },
+      "sales_velocity": 27.03,
+      "upcoming_replenishments": [
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 20,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-14",
+          "days_until_arrival": 9
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 11,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-17",
+          "days_until_arrival": 12
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-11-30",
+          "days_until_arrival": 25
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-30",
+          "days_until_arrival": 25
+        },
+        {
+          "quantity": 10,
+          "expected_date": "2026-11-30",
+          "days_until_arrival": 25
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-11-30",
+          "days_until_arrival": 25
+        },
+        {
+          "quantity": 13,
+          "expected_date": "2026-11-30",
+          "days_until_arrival": 25
+        },
+        {
+          "quantity": 14,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 15,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 12,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 19,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        },
+        {
+          "quantity": 18,
+          "expected_date": "2026-12-02",
+          "days_until_arrival": 27
+        }
+      ],
+      "current_promotions": [
+        {
+          "active": true,
+          "promotion_id": "PROMO-202611-34F0D0-0FZZNL",
+          "start_date": "2026-11-04",
+          "end_date": "2026-11-13"
+        }
+      ]
+    }
+  ]
+}
