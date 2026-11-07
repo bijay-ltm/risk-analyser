@@ -20,7 +20,7 @@ console.error = (...args) => {
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 const PAGE_SIZE = 10;
 
 const client = new MongoClient(process.env.MONGODB_URI || `mongodb+srv://ms555app_db_user:l5MztOUjHXml6KKI@c0.uoosfng.mongodb.net/`);
