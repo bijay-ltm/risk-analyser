@@ -828,6 +828,8 @@ async function aggregateProducts() {
 
       if (riskResult === null) continue;
 
+      console.log(`Risk analysed for ${numberOfProducts}: ${aggregatedProduct.product_id}`);
+
       await db.collection("products_risk_analysis").updateOne(
         { product_id: aggregatedProduct.product_id },
         {
