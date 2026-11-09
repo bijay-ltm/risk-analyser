@@ -822,6 +822,8 @@ async function aggregateProducts() {
     for await (const aggregatedProduct of cursor) {
       numberOfProducts += 1;
 
+      console.log(`aggregatedProduct`, JSON.stringify(aggregatedProduct, null, 2));
+
       const riskResult = await getRiskAnalysis(
         aggregatedProduct
       );
