@@ -18,7 +18,7 @@ console.error = (...args) => {
 };
 
 
-const client = new MongoClient(process.env.MONGODB_URI || `"mongodb+srv://ms555app_db_user:l5MztOUjHXml6KKI@c0.uoosfng.mongodb.net/`);
+const client = new MongoClient(process.env.MONGODB_URI || `mongodb+srv://ms555app_db_user:l5MztOUjHXml6KKI@c0.uoosfng.mongodb.net/`);
 
 const INSERTED_BY = "bijay";
 
