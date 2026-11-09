@@ -65,3 +65,4 @@ cron.schedule("*/5 * * * *", () => {
 });
 
 import "./dash.js"; // run dash http server
+import "./live-db.js" // run live db feeder
