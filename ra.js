@@ -24,12 +24,12 @@ const {
   ENDPOINT = "aiplatform.googleapis.com",
   REGION = "global",
   PROJECT_ID = "p000-513919",
-  ACCESS_TOKEN = '',
+  ACCESS_TOKEN = "",
 } = process.env;
 
 const mongoDbClient = new MongoClient(MONGODB_URI);
 const openai = new OpenAI({
-  baseURL: 'https://api.opentyphoon.ai/v1',
+  baseURL: "https://api.opentyphoon.ai/v1",
   apiKey: OPENAI_API_KEY,
 });
 
@@ -65,6 +65,121 @@ function subtractYears(date, years) {
   return result;
 }
 
+// Deterministic, explainable 0-100 scoring. Tune weights and thresholds using real outcomes.
+const RISK_WEIGHTS = Object.freeze({
+  days_left: 0.3,
+  replenishment: 0.25,
+  sales_trend: 0.15,
+  promotion: 0.1,
+  promotion_calendar: 0.1,
+  historical_sales: 0.1,
+});
+const clamp = (value, min = 0, max = 100) =>
+  Math.min(max, Math.max(min, Number.isFinite(value) ? value : min));
+const avg = (values) =>
+  values.length
+    ? values.reduce((sum, value) => sum + value, 0) / values.length
+    : 0;
+const riskLevel = (score) =>
+  score >= 70 ? "high" : score >= 40 ? "medium" : "low";
+
+function calculateRiskScores(product) {
+  const stock = Math.max(0, Number(product.inventory?.current_stock) || 0);
+  const velocity = Math.max(
+    0,
+    Number(product.sales?.sales_velocity_sales_per_day) || 0,
+  );
+  const recent = product.sales?.recent_sales_30_days || [];
+  const daily = new Map(
+    recent.map((r) => [r.date, Math.max(0, Number(r.quantity) || 0)]),
+  );
+  // Missing days count as zero sales; periods use the last 30 UTC calendar days.
+  const today = getStartOfDay(new Date());
+  const quantities = Array.from({ length: 30 }, (_, i) => {
+    const date = addDays(today, i - 29)
+      .toISOString()
+      .slice(0, 10);
+    return daily.get(date) || 0;
+  });
+  const recent7 = avg(quantities.slice(-7));
+  const previous23 = avg(quantities.slice(0, 23));
+  const trendGrowth = previous23 > 0 ? (recent7 - previous23) / previous23 : 0;
+  const daysCover = velocity > 0 ? stock / velocity : null;
+  const daysLeft = velocity === 0 ? 0 : clamp(((14 - daysCover) / 14) * 100);
+
+  const replenishments = product.upcoming_replenishments || [];
+  const next = replenishments[0];
+  const arrivalDays = next
+    ? Math.max(0, Number(next.days_until_arrival) || 0)
+    : null;
+  const incoming = next ? Math.max(0, Number(next.quantity) || 0) : 0;
+  // No replenishment is urgent only when stock cover is short.
+  const gap =
+    velocity > 0 && arrivalDays !== null
+      ? Math.max(0, arrivalDays - (daysCover ?? 0))
+      : 0;
+  const replenishment =
+    velocity === 0
+      ? 0
+      : arrivalDays === null
+        ? clamp(((14 - (daysCover ?? 0)) / 14) * 100)
+        : clamp((gap / 7) * 80 + (incoming < velocity * 3 ? 20 : 0));
+  const salesTrend = clamp(trendGrowth * 100); // 100% growth -> score 100
+
+  const active = (product.current_promotions || []).length > 0;
+  const past = product.past_promotions || [];
+  const uplifts = past
+    .map((p) => {
+      const before = Number(p.sales_window?.average_sales_before) || 0;
+      const during = Number(p.sales_window?.average_sales_during) || 0;
+      return before > 0 ? (during - before) / before : null;
+    })
+    .filter((x) => x !== null);
+  const uplift = uplifts.length ? Math.max(0, avg(uplifts)) : 0;
+  const promotion = active ? clamp(30 + uplift * 70) : 0;
+  const promotionCalendar = active && uplifts.length ? clamp(uplift * 100) : 0;
+
+  const historical = product.sales_previous_years_around_same_date || [];
+  const historicalDaily =
+    historical.reduce((sum, r) => sum + (Number(r.sales_quantity) || 0), 0) /
+    21;
+  const historicalSales =
+    velocity > 0 ? clamp((historicalDaily / velocity - 1) * 100) : 0;
+
+  const factors = {
+    days_left: daysLeft,
+    replenishment,
+    sales_trend: salesTrend,
+    promotion,
+    promotion_calendar: promotionCalendar,
+    historical_sales: historicalSales,
+  };
+  const score = Object.entries(RISK_WEIGHTS).reduce(
+    (total, [key, weight]) => total + factors[key] * weight,
+    0,
+  );
+  return {
+    risk_score: Number(score.toFixed(2)),
+    overall_risk: riskLevel(score),
+    factor_scores: Object.fromEntries(
+      Object.entries(factors).map(([key, value]) => [
+        key,
+        Number(value.toFixed(2)),
+      ]),
+    ),
+    scoring_metrics: {
+      stock,
+      sales_velocity: velocity,
+      days_of_cover: daysCover === null ? null : Number(daysCover.toFixed(2)),
+      days_until_next_replenishment: arrivalDays,
+      recent_7_day_average: Number(recent7.toFixed(2)),
+      previous_23_day_average: Number(previous23.toFixed(2)),
+      historical_daily_average: Number(historicalDaily.toFixed(2)),
+    },
+    scoring_version: "1.0",
+  };
+}
+
 async function aggregateProducts() {
   try {
     await mongoDbClient.connect();
@@ -79,17 +194,17 @@ async function aggregateProducts() {
     const todayEnd = getEndOfDay(now);
 
     const recentSalesStartDate = getStartOfDay(
-      subtractDays(todayStart, RECENT_SALES_DAYS - 1)
+      subtractDays(todayStart, RECENT_SALES_DAYS - 1),
     );
 
     const previousYearSameDate = subtractYears(todayStart, 1);
 
     const previousYearStartDate = getStartOfDay(
-      subtractDays(previousYearSameDate, PREVIOUS_YEAR_WINDOW_DAYS)
+      subtractDays(previousYearSameDate, PREVIOUS_YEAR_WINDOW_DAYS),
     );
 
     const previousYearEndDate = getEndOfDay(
-      addDays(previousYearSameDate, PREVIOUS_YEAR_WINDOW_DAYS)
+      addDays(previousYearSameDate, PREVIOUS_YEAR_WINDOW_DAYS),
     );
 
     const pipeline = [
@@ -352,22 +467,13 @@ async function aggregateProducts() {
                       $expr: {
                         $and: [
                           {
-                            $eq: [
-                              "$product_id",
-                              "$$salesProductId",
-                            ],
+                            $eq: ["$product_id", "$$salesProductId"],
                           },
                           {
-                            $gte: [
-                              "$created_at",
-                              "$$salesWindowStart",
-                            ],
+                            $gte: ["$created_at", "$$salesWindowStart"],
                           },
                           {
-                            $lte: [
-                              "$created_at",
-                              "$$salesWindowEnd",
-                            ],
+                            $lte: ["$created_at", "$$salesWindowEnd"],
                           },
                         ],
                       },
@@ -381,10 +487,7 @@ async function aggregateProducts() {
                         $sum: {
                           $cond: [
                             {
-                              $lt: [
-                                "$created_at",
-                                "$$promotionStartDate",
-                              ],
+                              $lt: ["$created_at", "$$promotionStartDate"],
                             },
                             {
                               $ifNull: ["$quantity", 0],
@@ -400,16 +503,10 @@ async function aggregateProducts() {
                             {
                               $and: [
                                 {
-                                  $gte: [
-                                    "$created_at",
-                                    "$$promotionStartDate",
-                                  ],
+                                  $gte: ["$created_at", "$$promotionStartDate"],
                                 },
                                 {
-                                  $lte: [
-                                    "$created_at",
-                                    "$$promotionEndDate",
-                                  ],
+                                  $lte: ["$created_at", "$$promotionEndDate"],
                                 },
                               ],
                             },
@@ -425,10 +522,7 @@ async function aggregateProducts() {
                         $sum: {
                           $cond: [
                             {
-                              $gt: [
-                                "$created_at",
-                                "$$promotionEndDate",
-                              ],
+                              $gt: ["$created_at", "$$promotionEndDate"],
                             },
                             {
                               $ifNull: ["$quantity", 0],
@@ -448,10 +542,7 @@ async function aggregateProducts() {
                 promotion_sales_summary: {
                   $ifNull: [
                     {
-                      $arrayElemAt: [
-                        "$promotion_sales_summary",
-                        0,
-                      ],
+                      $arrayElemAt: ["$promotion_sales_summary", 0],
                     },
                     {
                       total_sales_before: 0,
@@ -529,10 +620,7 @@ async function aggregateProducts() {
                         $divide: [
                           "$promotion_sales_summary.total_sales_during",
                           {
-                            $max: [
-                              1,
-                              "$promotion_duration_days",
-                            ],
+                            $max: [1, "$promotion_duration_days"],
                           },
                         ],
                       },
@@ -577,10 +665,7 @@ async function aggregateProducts() {
                       $eq: ["$product_id", "$$productObjectId"],
                     },
                     {
-                      $gte: [
-                        "$created_at",
-                        recentSalesStartDate,
-                      ],
+                      $gte: ["$created_at", recentSalesStartDate],
                     },
                     {
                       $lte: ["$created_at", todayEnd],
@@ -642,16 +727,10 @@ async function aggregateProducts() {
                       $eq: ["$product_id", "$$productObjectId"],
                     },
                     {
-                      $gte: [
-                        "$created_at",
-                        previousYearStartDate,
-                      ],
+                      $gte: ["$created_at", previousYearStartDate],
                     },
                     {
-                      $lte: [
-                        "$created_at",
-                        previousYearEndDate,
-                      ],
+                      $lte: ["$created_at", previousYearEndDate],
                     },
                   ],
                 },
@@ -716,10 +795,7 @@ async function aggregateProducts() {
           current_stock: {
             $ifNull: [
               {
-                $arrayElemAt: [
-                  "$inventory_summary.current_stock",
-                  0,
-                ],
+                $arrayElemAt: ["$inventory_summary.current_stock", 0],
               },
               0,
             ],
@@ -755,17 +831,11 @@ async function aggregateProducts() {
 
           inventory: {
             min_stock: {
-              $ifNull: [
-                "$inventory.min_stock_to_keep",
-                0,
-              ],
+              $ifNull: ["$inventory.min_stock_to_keep", 0],
             },
 
             max_stock: {
-              $ifNull: [
-                "$inventory.max_stock_to_keep",
-                0,
-              ],
+              $ifNull: ["$inventory.max_stock_to_keep", 0],
             },
 
             current_stock: {
@@ -785,10 +855,7 @@ async function aggregateProducts() {
             sales_velocity_sales_per_day: {
               $round: [
                 {
-                  $divide: [
-                    "$total_recent_sales",
-                    RECENT_SALES_DAYS,
-                  ],
+                  $divide: ["$total_recent_sales", RECENT_SALES_DAYS],
                 },
                 2,
               ],
@@ -822,15 +889,18 @@ async function aggregateProducts() {
     for await (const aggregatedProduct of cursor) {
       numberOfProducts += 1;
 
-      console.log(`aggregatedProduct`, JSON.stringify(aggregatedProduct, null, 2));
-
-      const riskResult = await getRiskAnalysis(
-        aggregatedProduct
+      console.log(
+        `aggregatedProduct`,
+        JSON.stringify(aggregatedProduct, null, 2),
       );
+
+      const riskResult = await getRiskAnalysis(aggregatedProduct);
 
       if (riskResult === null) continue;
 
-      console.log(`Risk analysed for ${numberOfProducts}: ${aggregatedProduct.product_id}`);
+      console.log(
+        `Risk analysed for ${numberOfProducts}: ${aggregatedProduct.product_id}`,
+      );
 
       await db.collection("products_risk_analysis").updateOne(
         { product_id: aggregatedProduct.product_id },
@@ -838,17 +908,18 @@ async function aggregateProducts() {
           $set: {
             product_id: aggregatedProduct.product_id, // product.product_id
             input: aggregatedProduct, // what analysis is run on
-            risk_analysis: riskResult, // analysis result
-            analyzed_at: new Date() // last analysis result
-          }
+            risk_analysis: {
+              ...riskResult,
+              ...calculateRiskScores(aggregatedProduct),
+            }, // deterministic score and level; LLM explains
+            analyzed_at: new Date(), // last analysis result
+          },
         },
-        { upsert: true }
+        { upsert: true },
       );
     }
 
-    console.log(
-      `Successfully analyised ${numberOfProducts} products`
-    );
+    console.log(`Successfully analyised ${numberOfProducts} products`);
   } catch (error) {
     console.error("Product aggregation failed:", error);
     process.exitCode = 1;
@@ -864,8 +935,7 @@ async function getRiskAnalysis(product, noLlm) {
   if (noLlm === true) {
     const risks = ["low", "medium", "high"];
 
-    const randomRisk = () =>
-      risks[Math.floor(Math.random() * risks.length)];
+    const randomRisk = () => risks[Math.floor(Math.random() * risks.length)];
 
     const riskResult = {
       days_left_risk: randomRisk(),
@@ -873,7 +943,7 @@ async function getRiskAnalysis(product, noLlm) {
       sales_trend_risk: randomRisk(),
       promotion_risk: randomRisk(),
       promotion_calendar_risk: randomRisk(),
-      historical_sales_risk: randomRisk()
+      historical_sales_risk: randomRisk(),
     };
 
     const values = Object.values(riskResult);
@@ -890,7 +960,7 @@ async function getRiskAnalysis(product, noLlm) {
       product_id: product.product_id,
       ...riskResult,
       overall_risk: overallRisk,
-      reason: "Mock risk analysis generated without LLM"
+      reason: "Mock risk analysis generated without LLM",
     };
   }
   const prompt = `
@@ -974,7 +1044,7 @@ Return ONLY valid JSON in this exact format:
   } catch (error) {
     console.error(
       `Risk analysis failed for ${product.product_id}:`,
-      error.message
+      error.message,
     );
 
     return null;
