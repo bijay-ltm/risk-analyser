@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { MongoClient } from "mongodb";
 import OpenAI from "openai";
+import { createHash } from "node:crypto";
 
 const originalLog = console.log;
 const originalError = console.error;
@@ -884,42 +885,92 @@ async function aggregateProducts() {
       batchSize: 100,
     });
 
-    let numberOfProducts = 0;
-
+    const riskCollection = db.collection("products_risk_analysis");
+    await riskCollection.createIndex({ product_id: 1 }, { unique: true });
+    const stats = { scored: 0, high: 0, llmAnalyzed: 0, reused: 0, failed: 0 };
     for await (const aggregatedProduct of cursor) {
-      numberOfProducts += 1;
-
-      console.log(
-        `aggregatedProduct`,
-        JSON.stringify(aggregatedProduct, null, 2),
+      stats.scored++;
+      const productId = aggregatedProduct.product_id;
+      const scoring = calculateRiskScores(aggregatedProduct);
+      const previous = await riskCollection.findOne(
+        { product_id: productId },
+        {
+          projection: { input_hash: 1, llm_analyzed_at: 1, risk_analysis: 1 },
+        },
       );
-
-      const riskResult = await getRiskAnalysis(aggregatedProduct);
-
-      if (riskResult === null) continue;
-
-      console.log(
-        `Risk analysed for ${numberOfProducts}: ${aggregatedProduct.product_id}`,
-      );
-
-      await db.collection("products_risk_analysis").updateOne(
-        { product_id: aggregatedProduct.product_id },
+      const inputHash = createHash("sha256")
+        .update(
+          JSON.stringify({
+            scoring_version: scoring.scoring_version,
+            factor_scores: scoring.factor_scores,
+            scoring_metrics: scoring.scoring_metrics,
+            current_promotions: aggregatedProduct.current_promotions,
+            upcoming_replenishments: aggregatedProduct.upcoming_replenishments,
+            past_promotions: aggregatedProduct.past_promotions,
+            historical_sales:
+              aggregatedProduct.sales_previous_years_around_same_date,
+          }),
+        )
+        .digest("hex");
+      let explanation = {};
+      let explanationStatus = "not_required";
+      if (scoring.overall_risk === "high") {
+        stats.high++;
+        const fresh =
+          previous?.llm_analyzed_at &&
+          Date.now() - new Date(previous.llm_analyzed_at).getTime() <
+            24 * 60 * 60 * 1000;
+        if (
+          previous?.input_hash === inputHash &&
+          fresh &&
+          previous?.risk_analysis?.factor_explanations
+        ) {
+          explanation = {
+            factor_explanations: previous.risk_analysis.factor_explanations,
+            factor_models: previous.risk_analysis.factor_models,
+            reason: previous.risk_analysis.reason,
+          };
+          explanationStatus = "cached";
+          stats.reused++;
+        } else {
+          const result = await getRiskAnalysis(aggregatedProduct, scoring);
+          if (result) {
+            explanation = result;
+            explanationStatus = "generated";
+            stats.llmAnalyzed++;
+          } else {
+            explanationStatus = "failed";
+            stats.failed++;
+          }
+        }
+      }
+      await riskCollection.updateOne(
+        { product_id: productId },
         {
           $set: {
-            product_id: aggregatedProduct.product_id, // product.product_id
-            input: aggregatedProduct, // what analysis is run on
+            product_id: productId,
+            input: aggregatedProduct,
+            input_hash: inputHash,
             risk_analysis: {
-              ...riskResult,
-              ...calculateRiskScores(aggregatedProduct),
-            }, // deterministic score and level; LLM explains
-            analyzed_at: new Date(), // last analysis result
+              ...scoring,
+              ...explanation,
+              explanation_status: explanationStatus,
+            },
+            analyzed_at: new Date(),
+            llm_analyzed_at:
+              explanationStatus === "generated"
+                ? new Date()
+                : explanationStatus === "cached"
+                  ? previous.llm_analyzed_at
+                  : null,
           },
         },
         { upsert: true },
       );
     }
+    console.log("Risk refresh:", stats);
 
-    console.log(`Successfully analyised ${numberOfProducts} products`);
+    console.log(`Successfully analyised ${stats.scored} products`);
   } catch (error) {
     console.error("Product aggregation failed:", error);
     process.exitCode = 1;
@@ -931,124 +982,124 @@ async function aggregateProducts() {
 
 aggregateProducts();
 
-async function getRiskAnalysis(product, noLlm) {
-  if (noLlm === true) {
-    const risks = ["low", "medium", "high"];
-
-    const randomRisk = () => risks[Math.floor(Math.random() * risks.length)];
-
-    const riskResult = {
-      days_left_risk: randomRisk(),
-      replenishment_risk: randomRisk(),
-      sales_trend_risk: randomRisk(),
-      promotion_risk: randomRisk(),
-      promotion_calendar_risk: randomRisk(),
-      historical_sales_risk: randomRisk(),
-    };
-
-    const values = Object.values(riskResult);
-
-    let overallRisk = "low";
-
-    if (values.includes("high")) {
-      overallRisk = "high";
-    } else if (values.includes("medium")) {
-      overallRisk = "medium";
+// Six separately orchestrated calls, one factor explanation per request.
+// Numeric risk values come exclusively from calculateRiskScores().
+const TASKS = [
+  [
+    "days_left",
+    "typhoon-v2.5-30b-a3b-instruct",
+    (p) => ({
+      inventory: p.inventory,
+      velocity: p.sales?.sales_velocity_sales_per_day,
+    }),
+  ],
+  [
+    "replenishment",
+    "typhoon-v2.5-30b-a3b-instruct",
+    (p) => ({
+      inventory: p.inventory,
+      replenishments: p.upcoming_replenishments,
+    }),
+  ],
+  ["sales_trend", "typhoon-v2.1-12b-instruct", (p) => ({ sales: p.sales })],
+  [
+    "promotion",
+    "typhoon-v2.1-12b-instruct",
+    (p) => ({ promotions: p.current_promotions, inventory: p.inventory }),
+  ],
+  [
+    "promotion_calendar",
+    "typhoon-v2.5-30b-a3b-instruct",
+    (p) => ({
+      past_promotions: p.past_promotions,
+      current_promotions: p.current_promotions,
+    }),
+  ],
+  [
+    "historical_sales",
+    "typhoon-v2.1-12b-instruct",
+    (p) => ({
+      historical_sales: p.sales_previous_years_around_same_date,
+      velocity: p.sales?.sales_velocity_sales_per_day,
+    }),
+  ],
+];
+const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+async function explainFactor(product, scoring, task) {
+  const [key, defaultModel, select] = task;
+  const model = process.env[`RISK_MODEL_${key.toUpperCase()}`] || defaultModel;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const response = await openai.chat.completions.create({
+        model,
+        messages: [
+          {
+            role: "system",
+            content:
+              "Explain one inventory risk factor using provided evidence. Do not invent facts. Return JSON with a single nonempty 'reason' string.",
+          },
+          {
+            role: "user",
+            content: JSON.stringify({
+              factor: key,
+              numerical_score: scoring.factor_scores[key],
+              overall_risk: scoring.overall_risk,
+              scoring_metrics: scoring.scoring_metrics,
+              data: select(product),
+            }),
+          },
+        ],
+        temperature: 0.2,
+        max_completion_tokens: 200,
+        response_format: { type: "json_object" },
+      });
+      const result = JSON.parse(
+        response.choices?.[0]?.message?.content || "null",
+      );
+      if (typeof result?.reason !== "string" || !result.reason.trim())
+        throw new Error("Invalid reason");
+      return { key, model, reason: result.reason.trim() };
+    } catch (error) {
+      if (attempt === 2) throw new Error(`${key}: ${error.message}`);
+      await pause(500 * 2 ** attempt);
     }
-
-    return {
-      product_id: product.product_id,
-      ...riskResult,
-      overall_risk: overallRisk,
-      reason: "Mock risk analysis generated without LLM",
-    };
   }
-  const prompt = `
-You are an inventory risk analysis system.
-
-Analyze the following product and determine its inventory risks.
-
-PRODUCT DATA:
-${JSON.stringify(product, null, 2)}
-
-Analyze these risk factors:
-
-1. days_left_risk
-   Calculate approximately how many days the current stock will last based on sales velocity.
-
-2. replenishment_risk
-   Consider upcoming replenishment quantity and expected arrival date.
-
-3. sales_trend_risk
-   Compare recent sales with normal sales velocity.
-
-4. promotion_risk
-   Consider currently active promotions and whether they may increase sales.
-
-5. promotion_calendar_risk
-   Use historical promotion performance to determine whether similar promotions caused higher sales.
-
-6. historical_sales_risk
-   Compare current sales behaviour with sales around the same date in previous years.
-
-Return risk as only:
-"low", "medium", or "high".
-
-Also calculate overall_risk.
-
-Return ONLY valid JSON in this exact format:
-
-{
-  "product_id": "${product.product_id}",
-  "days_left_risk": "low",
-  "replenishment_risk": "low",
-  "sales_trend_risk": "low",
-  "promotion_risk": "low",
-  "promotion_calendar_risk": "low",
-  "historical_sales_risk": "low",
-  "overall_risk": "low",
-  "reason": "short explanation"
 }
-`;
-
-  try {
-    const response = await openai.chat.completions.create({
-      model: process.env.OPENAI_MODEL || "typhoon-v2.5-30b-a3b-instruct",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an inventory and stock risk analysis system. Return only valid JSON.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      temperature: 0.6,
-      max_completion_tokens: 512,
-      top_p: 0.6,
-      frequency_penalty: 0,
-      response_format: {
-        type: "json_object",
-      },
-    });
-
-    const content = response.choices[0]?.message?.content;
-
-    if (!content) {
-      throw new Error("Empty response from LLM");
-    }
-
-    return JSON.parse(content);
-  } catch (error) {
+async function getRiskAnalysis(product, scoring) {
+  // Three calls at a time, six total; retry each failed call up to three attempts.
+  const results = new Array(TASKS.length);
+  let next = 0;
+  const concurrency = Math.max(
+    1,
+    Math.min(6, Number(process.env.RISK_LLM_CONCURRENCY) || 3),
+  );
+  await Promise.all(
+    Array.from({ length: concurrency }, async () => {
+      while (next < TASKS.length) {
+        const index = next++;
+        try {
+          results[index] = await explainFactor(product, scoring, TASKS[index]);
+        } catch (error) {
+          results[index] = { error: error.message };
+        }
+      }
+    }),
+  );
+  const failures = results.filter((result) => result.error);
+  if (failures.length) {
     console.error(
-      `Risk analysis failed for ${product.product_id}:`,
-      error.message,
+      `Incomplete explanations for ${product.product_id}:`,
+      failures.map((f) => f.error).join("; "),
     );
-
     return null;
   }
+  return {
+    factor_explanations: Object.fromEntries(
+      results.map((r) => [r.key, r.reason]),
+    ),
+    factor_models: Object.fromEntries(results.map((r) => [r.key, r.model])),
+    reason: results.map((r) => `${r.key}: ${r.reason}`).join(" "),
+  };
 }
 
 const MODEL = "google/gemma-4-26b-a4b-it-maas";
